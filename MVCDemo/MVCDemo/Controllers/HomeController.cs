@@ -43,5 +43,19 @@ namespace MVCDemo.Controllers
 
             return View();
         }
+
+        //ViewData
+        //public ActionResult Index()
+        //{
+        //    ViewData["Countries"] = new List<string>()
+        //    {
+        //        "India",
+        //        "Pakistan",
+        //        "Bangaladesh",
+        //        "Sri Lanka"
+        //    };
+
+        //    return View();
+        //}
     }
 }
