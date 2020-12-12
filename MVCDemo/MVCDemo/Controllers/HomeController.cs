@@ -8,27 +8,40 @@ namespace MVCDemo.Controllers
 {
     public class HomeController : Controller
     {
-        //public ActionResult Index()
+        //public string Index()
         //{
-        //    return View();
+        //    return "Hello from Index";
         //}
 
-        //public ActionResult About()
+        //public string Index(string id)
         //{
-        //    ViewBag.Message = "Your application description page.";
-
-        //    return View();
+        //    return "The value of Id = " + id;
+        //    //http://localhost/MVCDemo/Home/Index/10
         //}
 
-        //public ActionResult Contact()
+        //public string Index(string id, string name)
         //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
+        //    return "The value of Id = " + id + " and Name = " + name;
+        //    http://localhost/MVCDemo/home/index/10?name=Pragim
         //}
-        public string Index()
+
+        //query string
+        //public string Index(string id)
+        //{
+        //    return "The value of Id = " + id + " and Name = " + Request.QueryString["name"];
+        //}
+
+        public ActionResult Index()
         {
-            return "Hello from Index";
+            ViewBag.Countries = new List<string>()
+            {
+                "India",
+                "Pakistan",
+                "Bangaladesh",
+                "Sri Lanka"
+            };
+
+            return View();
         }
     }
 }
