@@ -74,3 +74,7 @@ C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\obj\Debug\MVCDemo.cs
 C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\obj\Debug\MVCDemo.csproj.CopyComplete
 C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\obj\Debug\MVCDemo.dll
 C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\obj\Debug\MVCDemo.pdb
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.dll
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.SqlServer.dll
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.xml
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.SqlServer.xml
