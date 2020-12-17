@@ -22,5 +22,23 @@ namespace MVCDemo.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult Create(FormCollection formCollection)
+        {
+            Employee employee = new Employee();
+            // Retrieve form data using form collection
+            employee.Name = formCollection["Name"];
+            employee.Gender = formCollection["Gender"];
+            employee.City = formCollection["City"];
+            employee.DateOfBirth =
+                Convert.ToDateTime(formCollection["DateOfBirth"]);
+
+            EmployeeBusinessLayer employeeBusinessLayer =
+                new EmployeeBusinessLayer();
+
+            employeeBusinessLayer.AddEmmployee(employee);
+            return RedirectToAction("Index");
+        }
     }
 }
