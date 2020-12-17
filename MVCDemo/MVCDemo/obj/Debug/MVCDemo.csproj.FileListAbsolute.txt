@@ -78,3 +78,5 @@ C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.
 C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.SqlServer.dll
 C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.xml
 C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\EntityFramework.SqlServer.xml
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\BusinessLayer.dll
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\MVCDemo\bin\BusinessLayer.pdb

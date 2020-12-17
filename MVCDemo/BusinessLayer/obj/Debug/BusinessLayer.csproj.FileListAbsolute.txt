@@ -1,0 +1,6 @@
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\BusinessLayer\bin\Debug\BusinessLayer.dll
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\BusinessLayer\bin\Debug\BusinessLayer.pdb
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\BusinessLayer\obj\Debug\BusinessLayer.csproj.CoreCompileInputs.cache
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\BusinessLayer\obj\Debug\BusinessLayer.dll
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\BusinessLayer\obj\Debug\BusinessLayer.pdb
+C:\Users\ssingh687\source\repos\Asp.Net-MVC\MVCDemo\BusinessLayer\obj\Debug\BusinessLayer.csprojAssemblyReference.cache
