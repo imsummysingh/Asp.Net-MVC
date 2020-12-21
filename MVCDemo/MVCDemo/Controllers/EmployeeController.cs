@@ -170,5 +170,51 @@ namespace MVCDemo.Controllers
             }
         }
 
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            EmployeeBusinessLayer employeeBusinessLayer =  new EmployeeBusinessLayer();
+            Employee employee = employeeBusinessLayer.Employees.Single(emp => emp.ID == id);
+
+            return View(employee);
+        }
+
+        //[HttpPost]
+        //public ActionResult Edit(Employee employee)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        EmployeeBusinessLayer employeeBusinessLayer =
+        //            new EmployeeBusinessLayer();
+        //        employeeBusinessLayer.SaveEmmployee(employee);
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(employee);
+        //}
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public ActionResult Edit_Post(int id)
+        {
+            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+            Employee employee = employeeBusinessLayer.Employees.Single(x => x.ID == id);
+
+            //include property
+            //UpdateModel(employee, null, null, new string[] { "Name" });
+            UpdateModel(employee, new string[] { "ID", "Gender", "City", "DateOfBirth" });
+
+            if (ModelState.IsValid)
+            {
+                employeeBusinessLayer.SaveEmmployee(employee);
+
+                return RedirectToAction("Index");
+            }
+
+            return View(employee);
+        }
+
+
+
     }
 }
