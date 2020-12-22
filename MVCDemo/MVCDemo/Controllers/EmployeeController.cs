@@ -1,291 +1,159 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using BusinessLayer;
+using MVCDemo.Models;
 
 namespace MVCDemo.Controllers
 {
     public class EmployeeController : Controller
     {
+        private EmployeeContext db = new EmployeeContext();
+
         // GET: Employee
         public ActionResult Index()
         {
-           EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-           List<Employee> employees = employeeBusinessLayer.Employees.ToList();
-           return View(employees);
+            return View(db.Employees.ToList());
         }
 
-        //[HttpGet]
-        //public ActionResult Create()
+        //public ActionResult EmployeesByDepartment()
         //{
-        //    return View();
+        //    var departmentTotals = db.Employees.Include("Department")
+        //                                .GroupBy(x => x.Department.Name)
+        //                                .Select(y => new DepartmentTotals
+        //                                {
+        //                                    Name = y.Key,
+        //                                    Total = y.Count()
+        //                                }).ToList();
+        //    return View(departmentTotals);
         //}
 
-        //[HttpPost]
-        //public ActionResult Create(FormCollection formCollection)
-        //{
-        //    Employee employee = new Employee();
-        //    // Retrieve form data using form collection
-        //    employee.Name = formCollection["Name"];
-        //    employee.Gender = formCollection["Gender"];
-        //    employee.City = formCollection["City"];
-        //    employee.DateOfBirth =
-        //        Convert.ToDateTime(formCollection["DateOfBirth"]);
+        //ascending ORder
+        //var departmentTotals = db.Employees.Include("Department")
+        //                .GroupBy(x => x.Department.Name)
+        //                .Select(y => new DepartmentTotals
+        //                {
+        //                    Name = y.Key,
+        //                    Total = y.Count()
+        //                }).ToList().OrderBy(y => y.Total);
 
-        //    EmployeeBusinessLayer employeeBusinessLayer =
-        //        new EmployeeBusinessLayer();
+        //descending order
 
-        //    employeeBusinessLayer.AddEmmployee(employee);
-        //    return RedirectToAction("Index");
-        //}
+        //var departmentTotals = db.Employees.Include("Department")
+        //                    .GroupBy(x => x.Department.Name)
+        //                    .Select(y => new DepartmentTotals
+        //                    {
+        //                        Name = y.Key,
+        //                        Total = y.Count()
+        //                    }).ToList().OrderByDescending(y => y.Total);
+        //    return View(departmentTotals);
 
-        //[HttpPost]
-        //public ActionResult Create(string name, string gender, string city, DateTime dateOfBirth)
-        //{
-        //    Employee employee = new Employee();
-        //    employee.Name = name;
-        //    employee.Gender = gender;
-        //    employee.City = city;
-        //    employee.DateOfBirth = dateOfBirth;
+        // GET: Employee/Details/5
+        public ActionResult Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
 
-        //    EmployeeBusinessLayer employeeBusinessLayer =
-        //        new EmployeeBusinessLayer();
-
-        //    employeeBusinessLayer.AddEmmployee(employee);
-        //    return RedirectToAction("Index");
-        //}
-
-        //[HttpPost]
-        //public ActionResult Create(Employee employee)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        EmployeeBusinessLayer employeeBusinessLayer =
-        //            new EmployeeBusinessLayer();
-
-        //        employeeBusinessLayer.AddEmmployee(employee);
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //throw error
-        //public ActionResult Create()
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        EmployeeBusinessLayer employeeBusinessLayer =
-        //            new EmployeeBusinessLayer();
-
-        //        Employee employee = new Employee();
-        //        UpdateModel<Employee>(employee);
-
-        //        employeeBusinessLayer.AddEmmployee(employee);
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
-
-        [HttpGet]
-        [ActionName("Create")]
-        public ActionResult Create_Get()
+        // GET: Employee/Create
+        public ActionResult Create()
         {
             return View();
         }
 
-        //[HttpPost]
-        //[ActionName("Create")]
-        //public ActionResult Create_Post()
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        EmployeeBusinessLayer employeeBusinessLayer =
-        //            new EmployeeBusinessLayer();
-
-        //        Employee employee = new Employee();
-        //        UpdateModel<Employee>(employee);
-
-        //        employeeBusinessLayer.AddEmmployee(employee);
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View();
-        //}
-
-        //[HttpPost]
-        //[ActionName("Create")]
-        //public ActionResult Create_Post()
-        //{
-        //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-        //    Employee employee = new Employee();
-        //    UpdateModel(employee);
-        //    if(ModelState.IsValid)
-        //    {
-        //        employeeBusinessLayer.AddEmmployee(employee);
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //[HttpPost]
-        //[ActionName("Create")]
-        //public ActionResult Create_Post()
-        //{
-        //    EmployeeBusinessLayer employeeBusinessLayer =
-        //        new EmployeeBusinessLayer();
-
-        //    Employee employee = new Employee();
-        //    TryUpdateModel(employee);
-        //    if (ModelState.IsValid)
-        //    {
-        //        employeeBusinessLayer.AddEmmployee(employee);
-        //        return RedirectToAction("Index");
-        //    }
-        //    else
-        //    {
-        //        return View();
-        //    }
-        //}
-
+        // POST: Employee/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ActionName("Create")]
-        public ActionResult Create_Post(Employee employee)
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "EmployeeId,Name,Gender,City,DepartmentId")] Employee employee)
         {
-            EmployeeBusinessLayer employeeBusinessLayer =
-                new EmployeeBusinessLayer();
-
             if (ModelState.IsValid)
             {
-                employeeBusinessLayer.AddEmmployee(employee);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return View();
-            }
-        }
-
-        [HttpGet]
-        public ActionResult Edit(int id)
-        {
-            EmployeeBusinessLayer employeeBusinessLayer =  new EmployeeBusinessLayer();
-            Employee employee = employeeBusinessLayer.Employees.Single(emp => emp.ID == id);
-
-            return View(employee);
-        }
-
-        //[HttpPost]
-        //public ActionResult Edit(Employee employee)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        EmployeeBusinessLayer employeeBusinessLayer =
-        //            new EmployeeBusinessLayer();
-        //        employeeBusinessLayer.SaveEmmployee(employee);
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(employee);
-        //}
-
-        //[HttpPost]
-        //[ActionName("Edit")]
-        //public ActionResult Edit_Post(int id)
-        //{
-        //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-        //    Employee employee = employeeBusinessLayer.Employees.Single(x => x.ID == id);
-
-        //    //include property
-        //    //UpdateModel(employee, null, null, new string[] { "Name" });
-        //    UpdateModel(employee, new string[] { "ID", "Gender", "City", "DateOfBirth" });
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        employeeBusinessLayer.SaveEmmployee(employee);
-
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View(employee);
-        //}
-
-
-        //[HttpPost]
-        //[ActionName("Edit")]
-        //public ActionResult Edit_Post([Bind(Exclude = "Name")] Employee employee)
-        //{
-        //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-        //    employee.Name = employeeBusinessLayer.Employees.Single(x => x.ID == employee.ID).Name;
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        employeeBusinessLayer.SaveEmmployee(employee);
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(employee);
-        //}
-
-        //OR
-
-        //[HttpPost]
-        //[ActionName("Edit")]
-        //public ActionResult Edit_Post([Bind(Include = "Id, Gender, City, DateOfBirth")] Employee employee)
-        //{
-        //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-        //    employee.Name = employeeBusinessLayer.Employees.Single(x => x.ID == employee.ID).Name;
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        employeeBusinessLayer.SaveEmmployee(employee);
-
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(employee);
-        //}
-
-        //Include and exclude properties using interface
-
-        [HttpPost]
-        [ActionName("Edit")]
-        public ActionResult Edit_Post(int id)
-        {
-            EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
-            Employee employee = employeeBusinessLayer.Employees.Single(x => x.ID == id);
-            UpdateModel<IEmployee>(employee);
-
-            if (ModelState.IsValid)
-            {
-                employeeBusinessLayer.SaveEmmployee(employee);
+                db.Employees.Add(employee);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(employee);
         }
 
-        //public ActionResult Delete(int id)
-        //{
-        //    EmployeeBusinessLayer employeeBusinessLayer =
-        //        new EmployeeBusinessLayer();
-        //    employeeBusinessLayer.DeleteEmployee(id);
-        //    return RedirectToAction("Index");
-        //}
-
-        [HttpPost]
-        public ActionResult Delete(int id)
+        // GET: Employee/Edit/5
+        public ActionResult Edit(int? id)
         {
-            EmployeeBusinessLayer employeeBusinessLayer =
-                new EmployeeBusinessLayer();
-            employeeBusinessLayer.DeleteEmployee(id);
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
+        // POST: Employee/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "EmployeeId,Name,Gender,City,DepartmentId")] Employee employee)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(employee).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(employee);
+        }
+
+        // GET: Employee/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+            return View(employee);
+        }
+
+        // POST: Employee/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            Employee employee = db.Employees.Find(id);
+            db.Employees.Remove(employee);
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 
-
-
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }
