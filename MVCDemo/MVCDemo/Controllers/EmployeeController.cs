@@ -193,25 +193,96 @@ namespace MVCDemo.Controllers
         //    return View(employee);
         //}
 
+        //[HttpPost]
+        //[ActionName("Edit")]
+        //public ActionResult Edit_Post(int id)
+        //{
+        //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+        //    Employee employee = employeeBusinessLayer.Employees.Single(x => x.ID == id);
+
+        //    //include property
+        //    //UpdateModel(employee, null, null, new string[] { "Name" });
+        //    UpdateModel(employee, new string[] { "ID", "Gender", "City", "DateOfBirth" });
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        employeeBusinessLayer.SaveEmmployee(employee);
+
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    return View(employee);
+        //}
+
+
+        //[HttpPost]
+        //[ActionName("Edit")]
+        //public ActionResult Edit_Post([Bind(Exclude = "Name")] Employee employee)
+        //{
+        //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+        //    employee.Name = employeeBusinessLayer.Employees.Single(x => x.ID == employee.ID).Name;
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        employeeBusinessLayer.SaveEmmployee(employee);
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(employee);
+        //}
+
+        //OR
+
+        //[HttpPost]
+        //[ActionName("Edit")]
+        //public ActionResult Edit_Post([Bind(Include = "Id, Gender, City, DateOfBirth")] Employee employee)
+        //{
+        //    EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
+        //    employee.Name = employeeBusinessLayer.Employees.Single(x => x.ID == employee.ID).Name;
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        employeeBusinessLayer.SaveEmmployee(employee);
+
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(employee);
+        //}
+
+        //Include and exclude properties using interface
+
         [HttpPost]
         [ActionName("Edit")]
         public ActionResult Edit_Post(int id)
         {
             EmployeeBusinessLayer employeeBusinessLayer = new EmployeeBusinessLayer();
             Employee employee = employeeBusinessLayer.Employees.Single(x => x.ID == id);
-
-            //include property
-            //UpdateModel(employee, null, null, new string[] { "Name" });
-            UpdateModel(employee, new string[] { "ID", "Gender", "City", "DateOfBirth" });
+            UpdateModel<IEmployee>(employee);
 
             if (ModelState.IsValid)
             {
                 employeeBusinessLayer.SaveEmmployee(employee);
-
                 return RedirectToAction("Index");
             }
 
             return View(employee);
+        }
+
+        //public ActionResult Delete(int id)
+        //{
+        //    EmployeeBusinessLayer employeeBusinessLayer =
+        //        new EmployeeBusinessLayer();
+        //    employeeBusinessLayer.DeleteEmployee(id);
+        //    return RedirectToAction("Index");
+        //}
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            EmployeeBusinessLayer employeeBusinessLayer =
+                new EmployeeBusinessLayer();
+            employeeBusinessLayer.DeleteEmployee(id);
+            return RedirectToAction("Index");
         }
 
 
