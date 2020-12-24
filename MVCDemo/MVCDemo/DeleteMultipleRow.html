@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    Step 1: Create an empty asp.net mvc 4 application.
+
+    Step 2: Generate ADO.NET entity data model from database using table tblEmployee. Change the entity name from tblEmployee to Employee. Save changes and build the application.
+
+    Step 3: Add HomeController with the following settings.
+    a) Controller name = HomeController
+    b) Template = Empty MVC controller
+
+    Setp 4: Add "Shared" folder under "Views", if it is not already present. Add "EditorTemplates" folder, under "Shared" folder. Right click on "EditorTemplates" folder and "Employee.cshtml" view with the following settings
+    View name = Employee
+    View engine = Razor
+    Create a strongly-typed view = checked
+    Model class = Employee (MVCDemo.Models)
+    Scaffold Template = Empty
+    and finally click "Add"
+
+    Step 5: Copy and paste the following code in Employee.cshtml view
+    @model MVCDemo.Models.Employee
+    <tr>
+        <td>
+            <input type="checkbox" name="employeeIdsToDelete" id="employeeIdsToDelete" value="@Model.ID" />
+        </td>
+        <td>
+            @Model.Name
+        </td>
+        <td>
+            @Model.Gender
+        </td>
+        <td>
+            @Model.Email
+        </td>
+    </tr>
+
+    Step 6: Copy and paste the following code in HomeController.cs
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using System.Web.Mvc;
+    using MVCDemo.Models;
+
+    namespace MVCTest.Controllers
+    {
+    public class HomeController : Controller
+    {
+    private SampleDBContext db = new SampleDBContext();
+
+    public ActionResult Index()
+    {
+    return View(db.Employees.ToList());
+    }
+
+    [HttpPost]
+    public ActionResult Delete(IEnumerable<int>
+        employeeIdsToDelete)
+        {
+        db.Employees.Where(x => employeeIdsToDelete.Contains(x.ID)).ToList().ForEach(db.Employees.DeleteObject);
+        db.SaveChanges();
+        return RedirectToAction("Index");
+        }
+        }
+        }
+
+        Setp 7: Right click on the Index() action and add "Index" view with the following settings.
+        View name = Index
+        View engine = Razor
+        Create a strongly-typed view = checked
+        Model class = Employee (MVCDemo.Models)
+        Scaffold Template = Empty
+        and finally click "Add"
+
+        Setp 8: Copy and paste the following code in Index.cshtml view
+        @model IEnumerable<MVCDemo.Models.Employee>
+
+            <div style="font-family:Arial">
+                <h2>Employee List</h2>
+
+                @using (Html.BeginForm("Delete", "Home", FormMethod.Post))
+                {
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>
+                                Select
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Gender
+                            </th>
+                            <th>
+                                Email
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @Html.EditorForModel()
+                    </tbody>
+                </table>
+                <input type="submit" value="Delete selected employees" />
+                }
+            </div>
+
+
+</body>
+</html>

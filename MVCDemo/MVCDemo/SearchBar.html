@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    Create table tblEmployee
+    (
+    ID int identity primary key,
+    Name nvarchar(50),
+    Gender nvarchar(10),
+    Email nvarchar(50)
+    )
+
+    Insert into tblEmployee values('Sara Nani', 'Female', 'Sara.Nani@test.com')
+    Insert into tblEmployee values('James Histo', 'Male', 'James.Histo@test.com')
+
+
+
+    Insert into tblEmployee values('Mary Jane', 'Female', 'Mary.Jane@test.com')
+
+
+
+    Insert into tblEmployee values('Paul Sensit', 'Male', 'Paul.Sensit@test.com')
+
+    Step 1: Create an empty asp.net mvc 4 application.
+
+    Step 2: Generate ADO.NET entity data model from database using table tblEmployee. Change the entity name from tblEmployee to Employee. Save changes and build the application.
+
+    Step 3: Add HomeController with the following settings.
+    a) Controller name = HomeController
+    b) Template = MVC controller with read/write actions and views, using Entity Framework
+    c) Model class = Employee
+    d) Data context class = SampleDBContext
+    e) Views = Razor
+
+    Step 4: Modify the Index() action method in HomeController as shown below.
+    public ActionResult Index(string searchBy, string search)
+    {
+    if (searchBy == "Gender")
+    {
+    return View(db.Employees.Where(x => x.Gender == search || search == null).ToList());
+    }
+    else
+    {
+    return View(db.Employees.Where(x => x.Name.StartsWith(search) || search == null).ToList());
+    }
+    }
+
+    Step 5: Copy and paste the following code in Index.cshtml view.
+    @model IEnumerable<MVCDemo.Models.Employee>
+
+        @{
+        ViewBag.Title = "Index";
+        }
+        <div style="font-family:Arial">
+            <h2>Employee List</h2>
+            <p>
+                @using (@Html.BeginForm("Index", "Home", FormMethod.Get))
+                {
+                <b>Search By:</b>
+                @Html.RadioButton("searchBy", "Name", true) <text>Name</text>
+                @Html.RadioButton("searchBy", "Gender") <text>Gender</text><br />
+
+
+
+                @Html.TextBox("search") <input type="submit" value="search" />
+                }
+            </p>
+            <table border="1">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>Action</th>
+                </tr>
+                @if (Model.Count() == 0)
+                {
+                <tr>
+                    <td colspan="4">
+                        No records match search criteria
+                    </td>
+                </tr>
+                }
+                else
+                {
+                foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+                }
+                }
+            </table>
+        </div>
+
+
+
+
+</body>
+</html>
