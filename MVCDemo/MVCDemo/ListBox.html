@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    The first step is to create a ViewModel class. In asp.net mvc, view model's are used as techniques to shuttle data between the controller and the view. Right click on the "Models" folder, and add a class file with name=CitiesViewModel.cs. Copy and paste the following code. This class is going to be the Model for the view.
+    public class CitiesViewModel
+    {
+    public IEnumerable<string>
+        SelectedCities { get; set; }
+        public IEnumerable<SelectListItem>
+            Cities { get; set; }
+            }
+
+            Right click on the "Controllers" folder, and add a "HomeController". Include the following 2 namespaces in "HomeController"
+            using MVCDemo.Models;
+            using System.Text;
+
+            Copy and paste the following code.
+            [HttpGet]
+            public ActionResult Index()
+            {
+            SampleDBContext db = new SampleDBContext();
+            List<SelectListItem>
+                listSelectListItems = new List<SelectListItem>
+                    ();
+
+                    foreach (City city in db.Cities)
+                    {
+                    SelectListItem selectList = new SelectListItem()
+                    {
+                    Text = city.Name,
+                    Value = city.ID.ToString(),
+                    Selected = city.IsSelected
+                    };
+                    listSelectListItems.Add(selectList);
+                    }
+
+                    CitiesViewModel citiesViewModel = new CitiesViewModel()
+                    {
+                    Cities = listSelectListItems
+                    };
+
+                    return View(citiesViewModel);
+                    }
+
+                    [HttpPost]
+                    public string Index(IEnumerable<string>
+                        selectedCities)
+                        {
+                        if (selectedCities == null)
+                        {
+                        return "No cities selected";
+                        }
+                        else
+                        {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("You selected - " + string.Join(",", selectedCities));
+                        return sb.ToString();
+                        }
+                        }
+
+                        Right click on the "Index" action method in "HomeController" and select "Add View" from the context menu. Set
+                        View Name = Index
+                        View Engine = Razor
+                        and click "Add".
+
+                        Copy and paste the following code in "Index.cshtml"
+                        @model MVCDemo.Models.CitiesViewModel
+
+                        @{
+                        ViewBag.Title = "Index";
+                        }
+
+                        <div style="font-family:Arial">
+                            <h2>Index</h2>
+                            @using (Html.BeginForm())
+                            {
+                            @Html.ListBoxFor(m => m.SelectedCities, Model.Cities, new { size = 4 })
+                            <br />
+                            <input type="submit" value="Submit" />
+                            }
+                        </div>
+
+</body>
+</html>

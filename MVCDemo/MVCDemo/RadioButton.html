@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+
+    Right click on the "Models" folder and add a class file with "name=Company.cs". Copy and paste the following code.
+    public class Company
+    {
+    public string SelectedDepartment { get; set; }
+    public List<Department>
+    Departments
+    {
+    get
+    {
+    SampleDBContext db = new SampleDBContext();
+    return db.Departments.ToList();
+    }
+    }
+    }
+
+
+    Copy and paste the following 2 "Index" action methods in HomeController class.
+    [HttpGet]
+    public ActionResult Index()
+    {
+    Company company = new Company();
+    return View(company);
+    }
+
+    [HttpPost]
+    public string Index(Company company)
+    {
+    if (string.IsNullOrEmpty(company.SelectedDepartment))
+    {
+    return "You did not select any department";
+    }
+    else
+    {
+    return "You selected department with ID = " + company.SelectedDepartment;
+    }
+    }
+
+
+    Right click on the "Index" action method in "HomeController" and add a view with "name=Index". Copy and paste the following code.
+    @model MVCDemo.Models.Company
+    @{
+    ViewBag.Title = "Index";
+    }
+
+    <h2>Index</h2>
+
+    @using (Html.BeginForm())
+    {
+    foreach (var department in Model.Departments)
+    {
+    @Html.RadioButtonFor(m => m.SelectedDepartment, department.Id) @department.Name
+    }
+    <br />
+    <br />
+    <input type="submit" value="Submit" />
+    }
+
+
+
+
+</body>
+</html>

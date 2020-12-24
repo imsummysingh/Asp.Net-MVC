@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    Right click on the "Controllers" folder, and add a "HomeController". Include the following 2 namespaces in "HomeController"
+    using MVCDemo.Models;
+    using System.Text;
+
+    Copy and paste the following code.
+    [HttpGet]
+    public ActionResult Index()
+    {
+    SampleDBContext db = new SampleDBContext();
+    return View(db.Cities);
+    }
+
+    [HttpPost]
+    public string Index(IEnumerable<City>
+    cities)
+    {
+    if (cities.Count(x => x.IsSelected) == 0)
+    {
+    return "You have not selected any City";
+    }
+    else
+    {
+    StringBuilder sb = new StringBuilder();
+    sb.Append("You selected - ");
+    foreach (City city in cities)
+    {
+    if (city.IsSelected)
+    {
+    sb.Append(city.Name + ", ");
+    }
+    }
+    sb.Remove(sb.ToString().LastIndexOf(","), 1);
+    return sb.ToString();
+    }
+    }
+
+
+
+    Copy and paste the following code in "City.cshtml"
+    @model MVCDemo.Models.City
+
+    @{
+    ViewBag.Title = "City";
+    }
+
+    @Html.HiddenFor(x => x.ID)
+    @Html.HiddenFor(x => x.Name)
+
+    @Html.CheckBoxFor(x => x.IsSelected)
+
+    @Html.DisplayFor(x => x.Name)
+
+
+
+    Copy and paste the following code in "Index.cshtml"
+    @model IEnumerable<MVCDemo.Models.City>
+        @{
+        ViewBag.Title = "Index";
+        }
+        <div style="font-family:Arial">
+            <h2>Index</h2>
+
+            @using (Html.BeginForm())
+            {
+            @Html.EditorForModel()
+            <br />
+            <input type="submit" value="Submit" />
+            }
+        </div>
+
+
+
+
+
+
+</body>
+</html>

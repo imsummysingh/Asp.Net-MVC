@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+
+    DropDownList(string name, IEnumerable<SelectListItem>
+    selectList, string optionLabel)
+
+
+    @Html.DropDownList("Departments", new List<SelectListItem>
+    {
+    new SelectListItem { Text = "IT", Value = "1", Selected=true},
+    new SelectListItem { Text = "HR", Value = "2"},
+    new SelectListItem { Text = "Payroll", Value = "3"}
+    }, "Select Department")
+
+
+    <!--From Database-->
+    public ActionResult Index()
+    {
+    // Connect to the database
+    SampleDBContext db = new SampleDBContext();
+    // Retrieve departments, and build SelectList
+    ViewBag.Departments = new SelectList(db.Departments, "Id", "Name");
+
+    <!--For selected item-->
+    ViewBag.Departments = new SelectList(db.Departments, "Id", "Name", "1");
+
+    return View();
+    }
+
+    Now in the "Index" view, access Departments list from "ViewBag"
+    @Html.DropDownList("Departments", "Select Department")
+
+
+
+</body>
+</html>

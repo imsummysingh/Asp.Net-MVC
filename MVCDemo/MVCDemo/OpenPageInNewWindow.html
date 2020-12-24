@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+
+
+    If you want the page to open in a new window,
+    1. Right click on "Views" folder, and add "Shared" folder.
+    2. Right click on "Shared" folder, and add "DisplayTemplates" folder.
+
+
+
+    3. Right click on DisplayTemplates folder, and add a view. Set "Url" as the name and use Razor view engine.
+    4. Copy and paste the following code in Url.cshtml view
+    <a href="@ViewData.Model" target="_blank">@ViewData.Model</a>
+
+    That's it. Build the application and click on the link. Notice that, the page, now opens in a new window. The downside of this approach is that, from now on all the links, will open in a new window. To overcome this, follow these steps.
+    1. Rename Url.cshtml to OpenInNewWindow.cshtml
+    2. Decorate "PersonalWebSite" property in EmployeeMetaData class with UIHint attribute and specify the name of the template to use. In our case, the name of the template is "OpenInNewWindow".
+    public class EmployeeMetaData
+    {
+    [DataType(DataType.Url)]
+    [UIHint("OpenInNewWindow")]
+    public string PersonalWebSite { get; set; }
+    }
+
+
+
+
+</body>
+</html>

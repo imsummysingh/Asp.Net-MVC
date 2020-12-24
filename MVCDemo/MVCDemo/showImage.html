@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+
+    Generate Details view
+    1. Delete "Details.cshtml" view, if it already exists.
+    2. Right click on "Details" action method and select "Add View"
+    3. In "Add View" window, set
+    View Name = Details
+    View engine = Razor
+    Create a strongly typed view = Select the checkbox
+    Model class = Employee(MVCDemo.Models)
+    Scaffold template = Details
+
+    Notice that for Photo and AlternateText properties, the following HTML is generated. At this point, if you run the application, instead of rendering the photo, the PhotoPath and AlternateText property values are displayed.
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Photo)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Photo)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.AlternateText)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AlternateText)
+    </div>
+
+    Replace the above code with the following. Notice that, we are using Url.Content() html helper method. This method resolves a url for a resource when we pass it the relative path.
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.Photo)
+    </div>
+    <div class="display-field">
+        <img src="@Url.Content(@Model.Photo)" alt="@Model.AlternateText" />
+    </div>
+
+
+
+</body>
+</html>

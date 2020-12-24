@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    public class HomeController : Controller
+    {
+    public ActionResult Details(int id)
+    {
+    SampleDBContext db = new SampleDBContext();
+    Employee employee = db.Employees.Single(x => x.Id == id);
+    return View(employee);
+    }
+    }
+
+
+    namespace MVCDemo.Models
+    {
+    [MetadataType(typeof(EmployeeMetaData))]
+    public partial class Employee
+    {
+    }
+
+    public class EmployeeMetaData
+    {
+    //If you want "FullName" to be displayed as "Full Name",
+    //use DisplayAttribute or DisplayName attribute.
+    //DisplayName attribute is in System.ComponentModel namespace.
+    //[DisplayAttribute(Name="Full Name")]
+    //[Display(Name = "Full Name")]
+    [DisplayName("Full Name")]
+    public string FullName { get; set; }
+
+    //To get only the date part in a datetime data type
+    //[DisplayFormat(DataFormatString = "{0:d}")]
+    //[DisplayFormatAttribute(DataFormatString="{0:d}")]
+
+    //To get time in 24 hour notation
+    //[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}")]
+
+    //To get time in 12 hour notation with AM PM
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss tt}")]
+    public DateTime? HireDate { get; set; }
+
+    // If gender is NULL, "Gender not specified" text will be displayed.
+    [DisplayFormat(NullDisplayText = "Gender not specified")]
+    public string Gender { get; set; }
+
+    //If you don't want to display a column use ScaffoldColumn attribute.
+    //This only works when you use @Html.DisplayForModel() helper
+    [ScaffoldColumn(false)]
+    public int? Salary { get; set; }
+    }
+    }
+
+
+
+</body>
+</html>
